@@ -1,0 +1,318 @@
+<html>
+        <body><!DOCTYPE html>
+<html>
+    <head>
+        <title>
+          Bill Intellect
+        </title>
+         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+  </head>
+  
+    <body onload="resetValues()">
+        <h1>Bill Intellect</h1>
+        <hr>
+        
+         <button class="addminus" onclick="addForm()"> Add Product
+                   </button>
+        <div class="container">
+        <form action="Bill.html" method="GET">
+             <div class="row text-center">
+                <div class="col">
+            <h4>Customer Name
+            <input type="text" name="cname" id="customerName"></h3>
+                </div>
+                 <div class="row">
+                <div class="col">
+                    Site:-
+                    <textarea rows="3" cols="50"></textarea>
+                </div>
+                <div class="col">
+                    Contact Person:
+                    <br>
+                    Name:<input type="text" >Number: <input type="number">
+                </div>
+                 </div>
+             </div>
+             <br>
+             <br>
+             <hr>
+            <div class="row">
+                <div class="col">
+            Category:
+            <select onchange="categoryChanged(event)" class="section1">
+                <option>Laminates</option>
+                <option>Plywood</option>
+                <option>Veneer</option>
+                <option>Decorative Panels</option>
+                <option>Lipping</option>
+                <option>Teak wood</option>
+                <option>Burmateak</option>
+                <option>Abrotapes</option>
+                <option>Fevicol</option>
+            </select>
+             </div>
+                <div class="col"  >
+            Product:
+              <select class="section1">
+                <option>Option11</option>
+                <option>Option12</option>
+                <option>Option13</option>
+            </select>
+           </div>
+            <div class="col"  >
+           Unit:
+              <select class="section1">
+                <option>KG</option>
+                <option>Nos</option>
+                <option>SQFT</option>
+            </select>
+           </div>
+            </div>
+            <br>
+             <div class="row">
+                <div class="col">
+            Size:
+           
+            <input type="text" value="3 by 4" style="color:grey">
+            </div>
+            <div class="col">
+            Quantity
+            <input type="number">
+            </div>
+      
+                <div class="col">
+            Rate:
+                <input type="number">
+                </div>
+            </div>
+            
+        </form>
+      <br>
+       
+                     <button onclick="generateBill()" id="submitbutton" >Generate Bill</a>
+                      </div>
+    </body>
+    </html>
+</body>
+        <style>table {
+  border-spacing: 15px;
+}
+
+body{
+    background-color:bisque;
+    color:brown;
+    
+}
+h1{
+    text-align:center;
+}
+#submitbutton{
+    background-color:brown;
+    color:bisque;
+    border:none;
+    padding:10px;
+  margin-left: 50%;
+}
+.addminus{
+    background-color:brown;
+    color:bisque;
+    border:none;
+    padding:10px;
+    float:right;
+    margin-right:30px;
+}
+td{
+    padding:20px;
+}
+</style>
+        <script>var idno=1;
+
+//localStorage.setItem(invoiceno,1)
+var section_number=1;
+ var category=["Laminates","Plywood","Veneer","Decorative Panels","Lipping","Teak wood","Burmateak","Hardware","Abrotapes","Fevicol"]
+ var products=[["option11","option12","options13"],["option21","option22","options23"],["option31","option32","options33"]]
+ var unit=["KG","Nos.","SQFT"]
+
+  
+function addForm(){
+       section_number++;
+    var form=document.getElementsByTagName("form")[0];
+    var div=document.createElement("div");
+    div.id="d"+idno;
+    idno++
+    
+    div.className="container-fluid";
+     var br=document.createElement("br");
+     var hr=document.createElement("hr");
+     div.appendChild(br);
+     div.appendChild(hr);
+     div.appendChild(br);
+    var remove=document.createElement("button");
+     remove.innerHTML="x";
+     remove.className="addminus"
+   div.appendChild(remove);
+   remove.onclick=removeView
+     var row=document.createElement("div");
+    row.className="row"; 
+   var col=createLabelAndSelect("Category : ",category)
+   div.appendChild(row);
+   row.appendChild(col)
+    var col=createLabelAndSelect("Product : ",products[0])
+   row.appendChild(col);
+    var col=createLabelAndSelect("Unit : ",unit)
+   row.appendChild(col);
+    var row=document.createElement("div");
+    row.className="row";
+    div.appendChild(br)
+    div.appendChild(row)
+      var col=document.createElement("div");
+    col.className="col";
+    row.appendChild(col)
+    var label=document.createElement("label");
+    label.innerHTML="Size : ";
+    col.appendChild(label);
+    var input=document.createElement("input");
+    input.type="text";
+    col.appendChild(input)
+     var col=document.createElement("div");
+    col.className="col";
+    row.appendChild(col)
+    var label=document.createElement("label");
+    label.innerHTML="Quantity : ";
+    col.appendChild(label);
+    var input=document.createElement("input");
+    input.type="number";
+    col.appendChild(input)
+       var col=document.createElement("div");
+    col.className="col";
+    row.appendChild(col)
+    var label=document.createElement("label");
+    label.innerHTML="Rate : ";
+    col.appendChild(label);
+    var input=document.createElement("input");
+    input.type="number";
+    col.appendChild(input)
+    form.appendChild(div);
+
+}
+function createSelect(options){
+    var select=document.createElement("select");
+    var i;
+    var option;
+for(i=0;i<options.length;i++){
+option=createOption(options[i])
+select.appendChild(option);
+}
+select.className="section"+section_number;
+
+return select;
+}
+function createOption(optionvalue){
+    var option=document.createElement("option")
+var optiontext=document.createTextNode(optionvalue);
+option.appendChild(optiontext)
+return option;
+}
+function createLabelAndSelect(labelname,options){
+    var col=document.createElement("div");
+    col.className="col";
+    var label=document.createElement("label");
+    label.innerHTML=labelname;
+    col.appendChild(label)
+    var select=createSelect(options)
+   select.onchange=categoryChanged
+    col.appendChild(select)
+    return col;
+}
+
+
+function removeView(e){
+    e.preventDefault()
+    var elementId=e.target.parentElement.id
+    var d=document.getElementById(elementId);
+     d.style.display="none"
+    d.dispatchEvent(e)
+   
+    
+}
+function generateBill(){
+      //alert(localStorage.getItem(invoiceno))
+      var sno=1;
+      var total=0;
+      var cname=document.getElementsByTagName("input")[0].value;
+      var site=document.getElementsByTagName("textarea")[0].value
+      var contactname=document.getElementsByTagName("input")[1].value;
+      var contactnumber=document.getElementsByTagName("input")[2].value;
+      var items=[]
+      var i;
+      var selectno=0,inputno=3;
+      for(i=1;i<=section_number;i++){
+     
+        var item=document.getElementsByTagName("select")[selectno++].value+" "+document.getElementsByTagName("select")[selectno++].value;
+     
+        var unit=document.getElementsByTagName("select")[selectno++].value;
+     
+        var size=document.getElementsByTagName("input")[inputno++].value;
+        var qty=document.getElementsByTagName("input")[inputno++].value;
+        var rate=document.getElementsByTagName("input")[inputno++].value;
+        var itemobj={
+          itemp:item+" "+size,
+          unitp:unit,
+          qtyp:qty,
+          ratep:rate,
+          amount:rate*qty
+        }
+        items.push(itemobj);
+      }
+      for(i=0;i<items.length;i++){
+        var a=items[i]
+      }
+      var d=new Date();
+      var day=d.getDate();
+      var m=d.getMonth()+1;
+      var y=d.getFullYear();
+      var v=1;
+     //alert(localStrorage.getItem(invoiceno))
+    document.write(" <div style=\"border: 2px solid black;padding:20px;\"> <div style=\"text-align:center\"><button style=\"float:right;border:none;\" onclick=\"closethedoc()\">X</button><h1><u>Manee Timbers</u></h1> Timber Market,Bhawani Peth<br> Pune.<br>Mob: +919960590592<br><br> <hr>");
+    document.write("<div class=\"container\" style=\"padding-left:20px;padding-right:20px;\"><p style=\"float:right\"><b>Date</b> : "+day+"-"+m+"-"+y+"<br><b>Invoice No.</b>:"+v+"</p><p style=\"text-align:left\">To,<br><b>Customer Name</b> : " +cname+"<br><b>Site</b> : "+site+"<br><b>Contact Person</b> : "+contactname+"  "+contactnumber+"</p></div><hr>");
+    document.write("<table width=\"100%\" ><tr><th>Srno</th><th>Item</th><th>Unit</th><th>Rate</th><th>Qty.</th><th>Amount</th><tr>");
+
+for(sno=1;sno<=section_number;sno++){
+
+  var a=items[sno-1]
+    document.write("<tr><td>"+sno+"</td><td>"+a.itemp+"</td><td>"+a.unitp+"</td><td> ₹"+a.ratep+"</td><td>"+a.qtyp+"</td><td>₹"+(a.amount)+"</td></tr>")
+    total+=a.amount;
+}
+document.write("</table><hr><p style=\"text-align:right;margin-right:20px;\" ><b>Total </b> ₹"+total+"/-<br><br><b>+18%GST</b></p><hr>");
+document.write("<br><br><br><br><p style=\"text-align:right;\">Manee Timbers</p></div>")
+
+  
+}
+function categoryChanged(event){
+  var i=event.target;
+  var c=event.target.selectedIndex;
+var cl=event.target.className;
+  var p= document.getElementsByClassName(cl)[1];
+  var newproducts=products[c];
+    for(i=0;i<newproducts.length;i++)
+  {
+p.children[i].innerHTML=newproducts[i];
+  }
+}
+  function resetValues(){
+   
+    section_number=1;
+  }
+  function closethedoc(){
+    /*var v=localStorage.getItem(invoiceno)
+    localStorage.removeItem(invoiceno)
+    v++;
+    localStorage.setItem(invoiceno,v)
+    alert(invoiceno)*/
+   location.reload();
+  }
+
+
+</script>
+      </html>
